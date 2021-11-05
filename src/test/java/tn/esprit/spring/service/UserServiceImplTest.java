@@ -44,8 +44,8 @@ public class UserServiceImplTest {
 	@Test
 	@Order(3)
 	public void testRetrieveUser(){
-		User user = us.retrieveUser("1");
-		Assertions.assertEquals(1,us.retrieveUser("1").getId());
+		User user = us.retrieveUser("3");
+		Assertions.assertEquals(1,us.retrieveUser("3").getId());
 	}
 	@Test
 	@Order(4)
@@ -57,8 +57,8 @@ public class UserServiceImplTest {
 	@Test
 	@Order(5)
 	public void testDeleteUser(){
-		us.deleteUser("1");
-		User user = us.retrieveUser("1");
+		us.deleteUser("3");
+		User user = us.retrieveUser("3");
 		Assertions.assertNull(user);
 	}
 
