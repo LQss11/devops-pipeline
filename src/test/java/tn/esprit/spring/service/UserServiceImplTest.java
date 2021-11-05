@@ -31,7 +31,7 @@ public class UserServiceImplTest {
 	@Order(1)
 	public void addUserTest(){
 
-		User u =  new User("Tarek","Ben Yahia",new Date(), generateRandom());
+		User u =  new User("Salem","Affes",new Date(), generateRandom());
 		Assertions.assertEquals(u,us.addUser(u));
 
 	}
@@ -50,7 +50,7 @@ public class UserServiceImplTest {
 	@Test
 	@Order(4)
 	public void testmodifyuser(){
-		User expected = new User(1L,"Salem", "Affes" ,  new Date(), Role.ADMINISTRATEUR);
+		User expected = new User(3,"Salem", "Affes" ,  new Date(), Role.ADMINISTRATEUR);
 		User user = us.updateUser(expected);
 		Assertions.assertEquals(expected,user);
 	}
@@ -61,16 +61,6 @@ public class UserServiceImplTest {
 		User user = us.retrieveUser("1");
 		Assertions.assertNull(user);
 	}
-
-	/*@Test
-	@Order(4)
-	public void updateUserTest(){
-
-		User u =  new User("Tarek","Ben Yahia",new Date(), Role.ADMINISTRATEUR);
-		//us.addUser( u);
-		Assertions.assertEquals(u,us.addUser(u));
-		//Assertions.assertEquals(us.addUser(u),u);
-	}*/
 
 
 
