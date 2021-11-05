@@ -32,7 +32,7 @@ ENTRYPOINT ["java","-jar","/timesheet-devops-1.0.jar"]
 ```
 
 ### Jenkins Pipeline
--Then connect to jmeter's container:
+-Don't forget to setup your docker hub credentials and create a new repository with tag you can visit this URI in jenkins http://JENKINS_IP:JENKINS_PORT/credentials/store/system/domain/_/newCredentials
 ```sh
 pipeline {
   environment {
