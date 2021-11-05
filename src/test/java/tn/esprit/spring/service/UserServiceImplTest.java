@@ -50,7 +50,7 @@ public class UserServiceImplTest {
 	@Test
 	@Order(4)
 	public void testmodifyuser(){
-		User expected = new User(3,"Salem", "Affes" ,  new Date(), Role.ADMINISTRATEUR);
+		User expected = new User(3L,"Salem", "Affes" ,  new Date(), Role.ADMINISTRATEUR);
 		User user = us.updateUser(expected);
 		Assertions.assertEquals(expected,user);
 	}
