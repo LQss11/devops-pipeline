@@ -45,20 +45,20 @@ public class UserServiceImplTest {
 	@Order(3)
 	public void testRetrieveUser(){
 		User user = us.retrieveUser("5");
-		Assertions.assertEquals(1,us.retrieveUser("5").getId());
+		Assertions.assertEquals(5,us.retrieveUser("5").getId());
 	}
 	@Test
 	@Order(4)
 	public void testmodifyuser(){
-		User expected = new User(7L,"Salem", "Affes" ,  new Date(), Role.ADMINISTRATEUR);
+		User expected = new User(7L,"Salem2", "Affes2" ,  new Date(), Role.ADMINISTRATEUR);
 		User user = us.updateUser(expected);
 		Assertions.assertEquals(expected,user);
 	}
 	@Test
 	@Order(5)
 	public void testDeleteUser(){
-		us.deleteUser("4");
-		User user = us.retrieveUser("4");
+		us.deleteUser("8");
+		User user = us.retrieveUser("8");
 		Assertions.assertNull(user);
 	}
 
