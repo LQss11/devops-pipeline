@@ -21,6 +21,7 @@ public class UserServiceImplTest {
 /*
 
 */
+/*
 	public Role generateRandom(){
 	Role[] values = Role.values();
 	int length = values.length;
@@ -61,7 +62,7 @@ public class UserServiceImplTest {
 		User user = us.retrieveUser("8");
 		Assertions.assertNull(user);
 	}
-
+*/
 
 
 }
