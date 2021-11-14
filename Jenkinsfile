@@ -17,7 +17,8 @@ pipeline {
         subject: 'Jenkins Job',
         to: 'affessalem@hotmail.fr'
       }
-    }      
+    }
+    try{
     stage('GIT Clone') {
       steps {
         echo 'Getting Project from Git'
@@ -74,6 +75,24 @@ pipeline {
       steps {
         bat "docker rmi $registry:$BUILD_NUMBER"
       }
-    }
+    }        
+    }catch(e) {
+    String error = "${e}";
+    // Make the string with job info, example:
+    // ${env.JOB_NAME}
+    // ${env.BUILD_NUMBER} 
+    // ${env.BUILD_URL}
+    // and other variables in the code
+    mail bcc: '',
+         cc: '',
+         charset: 'UTF-8',
+         from: '',
+         mimeType: 'text/html',
+         replyTo: '',
+         subject: "ERROR CI: Project name -> ${env.JOB_NAME}",
+         to: "affessalem@hotmail.fr",
+         body: "<b>${pivote}</b><br>\n\nMensaje de error: ${error}\n\n<br>Projecto: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}";
+    error "${error}"
+}
   }
 }
