@@ -78,16 +78,23 @@ pipeline {
   }
       post {
         success {
-      echo 'whole pipeline successful'
+        echo 'whole pipeline successful'
+        mail bcc: '',
+        body: "Project with name ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER}, was built successfully. to check the build result go to build URL: ${env.BUILD_URL}",
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Build success',
+        to: 'affessalem@hotmail.fr'
         }
         failure {
         echo 'pipeline failed, at least one step failed'
         mail bcc: '',
-        body: "<br>there was an error in : ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}",
+        body: "there was an error in  ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER} to check the error go to build URL: ${env.BUILD_URL}",
         cc: '',
         from: '',
         replyTo: '',
-        subject: 'Jenkins Job',
+        subject: 'Build Failure',
         to: 'affessalem@hotmail.fr'
         }
       }
