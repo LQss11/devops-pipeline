@@ -8,10 +8,17 @@ pipeline {
   stages {
     stage('Mail Notification') {
       steps {
-        mail bcc: '',body: 'Jenkins Build Started',cc: '',from: '',replyTo: '',subject: 'Jenkins Job',to: 'affessalem@hotmail.fr'
+        echo 'Sending Mail'
+        mail bcc: '',
+        body: 'Jenkins Build Started',
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Jenkins Job',
+        to: 'affessalem@hotmail.fr'
       }
     }      
-    stage('GIT') {
+    stage('GIT Clone') {
       steps {
         echo 'Getting Project from Git'
         git 'https://github.com/LQss11/devops-pipeline.git'
@@ -54,7 +61,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy our image') {
+    stage('Deploy image to Docker Hub') {
       steps {
         script {
           docker.withRegistry('', registryCredential) {
@@ -63,7 +70,7 @@ pipeline {
         }
       }
     }
-    stage('Cleaning up') {
+    stage('Cleaning up Docker Image') {
       steps {
         bat "docker rmi $registry:$BUILD_NUMBER"
       }
