@@ -6,19 +6,18 @@ pipeline {
   }
   agent any
   stages {
-      stages {
-      stage('Mail Notification') {
-        steps {
-          mail bcc: '',
-          body: 'Jenkins Build Started',
-          cc: '',
-          from: '',
-          replyTo: '',
-          subject: 'Jenkins Job',
-          to: 'affessalem@hotmail.fr'
-        }
+    stage('Mail Notification') {
+      steps {
+        echo 'Getting Project from Git'
+        mail bcc: '',
+        body: 'Jenkins Build Started',
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Jenkins Job',
+        to: 'affessalem@hotmail.fr'
       }
-      }
+    }      
     stage('GIT') {
       steps {
         echo 'Getting Project from Git'
