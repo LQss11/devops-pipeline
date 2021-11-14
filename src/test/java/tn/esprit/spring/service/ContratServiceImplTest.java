@@ -70,7 +70,7 @@ public class ContratServiceImplTest {
   public void testDeleteContrat() {
     //String listContrats =Integer.toString(cr.retrieveAllContrats().size() - 1)   ;
 	//String listContrats = Integer.toString(cr.retrieveAllContrats().size() - 1)   ;
-	  String listContrats = "30";
+	  String listContrats = "32";
     cr.deleteContrat(listContrats);
     Contrat contrat = cr.retrieveContrat(listContrats);
     Assertions.assertNull(contrat);
