@@ -81,11 +81,9 @@ pipeline {
       echo 'whole pipeline successful'
         }
         failure {
-        String error = "${e}"
         echo 'pipeline failed, at least one step failed'
         mail bcc: '',
-        body: "<b>${pivote}</b><br>\n\nMensaje de error: ${error}\n\n<br>Projecto: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}"
-      error "${error}",
+        body: "<br>there was an error in : ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}",
         cc: '',
         from: '',
         replyTo: '',
