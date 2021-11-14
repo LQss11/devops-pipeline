@@ -8,14 +8,7 @@ pipeline {
   stages {
     stage('Mail Notification') {
       steps {
-        echo 'Getting Project from Git'
-        mail bcc: '',
-        body: 'Jenkins Build Started',
-        cc: '',
-        from: '',
-        replyTo: '',
-        subject: 'Jenkins Job',
-        to: 'affessalem@hotmail.fr'
+        mail bcc: '',body: 'Jenkins Build Started',cc: '',from: '',replyTo: '',subject: 'Jenkins Job',to: 'affessalem@hotmail.fr'
       }
     }      
     stage('GIT') {
