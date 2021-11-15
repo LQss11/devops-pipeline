@@ -36,16 +36,16 @@ pipeline {
         bat 'mvn test'
       }
     }
-    stage('MVN PACKAGE') {
-      steps {
-        echo 'Maven Packaging'
-        bat 'mvn package -Dmaven.test.skip=true'
-      }
-    }
     stage('MVN TEST SONAR') {
       steps {
         echo 'Sonar Test Code Quality'
         bat 'mvn sonar:sonar'
+      }
+    }
+    stage('MVN PACKAGE') {
+      steps {
+        echo 'Maven Packaging'
+        bat 'mvn package -Dmaven.test.skip=true'
       }
     }
     stage('NEXUS') {
