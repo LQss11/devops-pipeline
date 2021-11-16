@@ -191,4 +191,6 @@ If you encountred one of these issues it is most likely that you havent allowed 
 If you have any issue feel free to post you issue in the `Issues section` and I would be so happy to help you
 
 ## Jenkins pipeline final result 
-![alt text](https://github.com/LQss11/devops-pipeline/tree/master/images/Jenkins_Results.png?raw=true)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Jenkins_Results.png" title="Jenkins pipeline">
+</p>
