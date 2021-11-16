@@ -15,7 +15,7 @@ pipeline {
         from: '',
         replyTo: '',
         subject: 'Jenkins Job',
-        to: 'affessalem@hotmail.fr'
+        to: 'examplemail@gmail.com'
       }
     }
     stage('GIT Clone') {
@@ -85,7 +85,7 @@ pipeline {
         from: '',
         replyTo: '',
         subject: 'Build success',
-        to: 'affessalem@hotmail.fr'
+        to: 'examplemail@gmail.com'
         }
         failure {
         echo 'pipeline failed, at least one step failed'
@@ -95,7 +95,7 @@ pipeline {
         from: '',
         replyTo: '',
         subject: 'Build Failure',
-        to: 'affessalem@hotmail.fr'
+        to: 'examplemail@gmail.com'
         }
       }
 }

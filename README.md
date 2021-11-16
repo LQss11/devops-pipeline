@@ -1,7 +1,7 @@
 ## Timesheet-devops
 `Timesheet-devops` is an Academic project allowing us to automatically execute tasks as jobs through a jenkins pipeline using a spring boot project with some other tools.
 ## Quick Start
- 1. Install maven
+ 1. Setup maven
  1. Install sonar
  1. Install nexus
  1. Install jenkins
@@ -32,7 +32,7 @@ ENTRYPOINT ["java","-jar","/timesheet-devops-1.0.jar"]
 ```
 
 ### Jenkins Pipeline
--Don't forget to setup your docker hub credentials and create a new repository with tag you can visit this URI in jenkins http://JENKINS_IP:JENKINS_PORT/credentials/store/system/domain/_/newCredentials
+-Don't forget to setup your docker hub credentials and create a new repository with tag you can visit this URI in jenkins NShttp://JENKI_IP:JENKINS_PORT/credentials/store/system/domain/_/newCredentials
 
 ```sh
 pipeline {
@@ -166,4 +166,29 @@ our link would look something like this xxxx-xxx-xxx-xxx-xxx.ngrok.io
   1. `Content type`: application/json
   1. `Which events would you like to trigger this webhook?`:Just the push event. 
 
+# Mailing
+In order to use mailing service through your pipeline you can use the jenkins `mailer` plugin then all you have to do is set up the mailing notification configuration as the following details:
+  1. Go to Jenkins configuration page -> `http://JENKINS_URL_AND_PORT/configure`
+  1. Go all the way down to `E-mail Notification`
+  1. `SMTP server`: smtp.gmail.com
+  1. Click advanced
+  1. Check `Use SMTP Authentication`and `Use SSL`
+  1. `User Name`: sender email
+  1. `Password`: email password
+  1. `SMTP Port`: 465
+  1. Finally ckeck Test configuration by sending test e-mail, type an email you want to test the service on then click `test configuration` -> you will recieve a mail once you click it and that means the service works properly for you and don't forget to save your settings.
+### Mailing Issues
+Configuring the email service can be challenging sometimes once you encounter some annoying issues as happened for me
 
+```sh
+javax.mail.MessagingException: Could not connect to SMTP host: smtp.gmail.com, port: 465;
+```
+```sh
+javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted
+```
+If you encountred one of these issues it is most likely that you havent allowed your email sender to send an email through thais service so all you have to do is login to you sender email then `Mail settings` -> `Security` -> `Enable less secure app access` , also make sure you have entered the right email and password if error still persisting then it must be something related to your firewall stopping you from sending SMTP requests using jenkins, so to solve this temporary all I had to do is disable my `Avast antivirus` for an hour and test the configuration and it worked like charm.
+
+If you have any issue feel free to post you issue in the `Issues section` and I would be so happy to help you
+
+## Jenkins pipeline final result 
+![alt text](https://github.com/LQss11/devops-pipeline/tree/master/images/Jenkins_Results.png?raw=true)
