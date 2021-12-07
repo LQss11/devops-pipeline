@@ -15,5 +15,7 @@ RUN mvn clean install
 # Changing the working directory
 WORKDIR /spring-app/app-content/target
 
+EXPOSE 8082
+
 # running the spring boot app
 CMD ["java","-jar","timesheet-devops-1.0.jar"]
