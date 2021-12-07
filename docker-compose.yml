@@ -29,9 +29,7 @@ services:
       environment:
         PMA_HOST: db    
       networks:
-        - cicd                 
-volumes:
-  elasticsearch:
+        - cicd       
 networks:
   cicd:
     driver: bridge
