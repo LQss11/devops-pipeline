@@ -1,3 +1,5 @@
+Sonarqube version error
+
 FUTURE UPDATES FOR README
 
 8002 jenkins
@@ -11,6 +13,19 @@ docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdmin
 install required plugins --> create user --> next
 
 create new pipeline with required one
+
+http://localhost:8002/credentials/store/system/domain/_/newCredentials
+        Username with initialAdminPassword
+        Global jenkins ...
+        Docker Username
+        Docker initialAdminPassword
+        dockerhub_id ----> reference for  registryCredential
+        Dockerhub Account
+
+Install docker plugin 
+Jenkins Homepage > Manage Jenkins > Manage Plugins > Available
+
+Search for Docker Pipeline install it restart jenkins and you are ready to go.
 
 build now
 
