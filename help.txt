@@ -4,7 +4,15 @@ FUTURE UPDATES FOR README
 8003 sonarqube
 8004 phpmyadmin    
 
+create database called timesheet-devops-db in mysql localhost:8004
 
+docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword" ---> will give secret
+
+install required plugins --> create user --> next
+
+create new pipeline with required one
+
+build now
 
 mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 ---> run jenkins sonar test on a project after git clone
 
@@ -14,10 +22,10 @@ git clone --single-branch -b spring-for-jenkins-with-docker  https://github.com/
 
 change bat to sh if using linux bat for windows
 
-create database called timesheet-devops-db in mysql localhost:8004
 
 don't forget to update the test file to match your database
 
 setup your credintials on jenkins
 
 later use .env file
+CTRL + SHIFT + F when creating env variables for ports
