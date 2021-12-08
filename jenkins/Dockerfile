@@ -5,7 +5,7 @@ ARG MAVEN_VERSION="3.5.4"
 USER root
 
 # install wget
-RUN apt-get install -y wget
+RUN apt-get install -y wget curl
 
 # get maven 3.2.2
 RUN wget --no-verbose -O /tmp/apache-maven-${JMETER_VERSION}-bin.tar.gz http://apache.cs.utah.edu/maven/maven-3/${JMETER_VERSION}/binaries/apache-maven-${JMETER_VERSION}-bin.tar.gz

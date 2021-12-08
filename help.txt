@@ -2,3 +2,24 @@ mvn sonar:sonar \
     -Dsonar.projectKey=cicd \
     -Dsonar.host.url=http://sonarcontainername:9000 \
     -Dsonar.login=f529a61c801dfe9e1e848a74f543ea129e4bdfc1
+
+
+8002 jenkins
+8003 sonarqube
+8004 phpmyadmin    
+
+
+
+mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 ---> run jenkins sonar test on a project after git clone
+
+Sonar have embedded H2 database but we need to setup a database for production  in newer versions mysql is not supported that's why we downgraded to older version
+
+git clone --single-branch -b spring-for-jenkins-with-docker  https://github.com/LQss11/devops-pipeline.git spring
+
+change bat to sh if using linux bat for windows
+
+create database called timesheet-devops-db in mysql localhost:8004
+
+don't forget to update the test file to match your database
+
+setup your credintials on jenkins

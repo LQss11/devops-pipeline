@@ -1,0 +1,39 @@
+pipeline {
+  environment {
+    registry = 'lqss/jenkins'
+    registryCredential = 'dockerHub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Example') {
+      steps {
+        git branch: "spring-for-jenkins-with-docker", url: 'https://github.com/LQss11/devops-pipeline.git'
+      }
+    }
+    stage('MVN CLEAN') {
+      steps {
+        echo 'Maven Clean'
+        bat 'mvn clean'
+      }
+    }
+    stage('MVN TEST JUNIT') {
+      steps {
+        echo 'Maven Test JUnit'
+        bat 'mvn test'
+      }
+    }
+    stage('MVN TEST SONAR') {
+      steps {
+        echo 'Sonar Test Code Quality'
+        bat 'mvn sonar:sonar'
+      }
+    }
+    stage('MVN PACKAGE') {
+      steps {
+        echo 'Maven Packaging'
+        bat 'mvn package -Dmaven.test.skip=true'
+      }
+    }
+  }
+}

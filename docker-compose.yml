@@ -5,12 +5,14 @@ services:
       build:
         context: ./jenkins
       image: lqssjenkins:latest
+      container_name: jenkins
       ports:
         - 8002:8080
         - 50000:50000
       privileged: true
       volumes:
           #- ./jenkins/jenkins_home:/var/jenkins_home
+          - /jenkins/secrets:/var/jenkins_home/secrets
           - /var/run/docker.sock:/var/run/docker.sock
           - /usr/bin/docker:/usr/bin/docker     
       networks:
@@ -39,7 +41,7 @@ services:
         - USER_PASSWORD=adminadmin
         - SONARQUBE_JDBC_USERNAME=root
         - SONARQUBE_JDBC_PASSWORD=root
-        - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+        - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
 
     #Mysql db setup    
     db:
@@ -52,7 +54,7 @@ services:
        # - ./mysql/custom-mysql.cnf:/etc/mysql/conf.d/custom-mysql.cnf
       environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=timesheet-devops-db
+        - MYSQL_DATABASE=sonarqube
       networks:
         - cicd
     #Phpmyadmin setup            
