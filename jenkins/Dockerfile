@@ -10,8 +10,10 @@ RUN apt-get install -y wget
 
 
 # install jenkins plugins
-#RUN /usr/local/bin/install-plugins.sh plugin-name:plugin-version:hpi-url
-
+#RUN /usr/local/bin/install-plugins.sh github-pullrequest:plugin-version:https://plugins.jenkins.io/github-pullrequest/
+#RUN /usr/local/bin/install-plugins.sh plugin-name:0.3.0:hpi-url
+# jenkins-plugin-cli --plugin-file /your/path/to/plugins.txt --plugins delivery-pipeline-plugin:1.3.2 deployit-plugin
+# jenkins-plugin-cli --plugins pluginname
 # get maven 3.2.2
 RUN wget --no-verbose -O /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz http://apache.cs.utah.edu/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 

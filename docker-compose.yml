@@ -21,8 +21,8 @@ services:
     sonarqube:
       depends_on:
         - db
-      #image: sonarqube:7.6-community
-      image: sonarqube:6.7
+      image: sonarqube:7.6-community
+      #image: sonarqube:6.7
       container_name: sonarqube      
       volumes:
         - sonarqube_conf:/opt/sonarqube/conf
@@ -38,9 +38,9 @@ services:
         - USER_LOGIN=admin
         - USER_NAME=admin
         - USER_PASSWORD=adminadmin
-        - SONARQUBE_JDBC_USERNAME=root
-        - SONARQUBE_JDBC_PASSWORD=root
-        - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+      #  - SONARQUBE_JDBC_USERNAME=root
+      #  - SONARQUBE_JDBC_PASSWORD=root
+      #  - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
 
     #Mysql db setup    
     db:
