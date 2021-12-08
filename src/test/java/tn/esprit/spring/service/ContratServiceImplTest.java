@@ -64,7 +64,8 @@ public class ContratServiceImplTest {
     Contrat contrat = cr.updateContrat(expected);
     Assertions.assertEquals(expected, contrat);
   }
-
+  //Uncomment to test the delete method
+/*
   @Test
   @Order(5)
   public void testDeleteContrat() {
@@ -75,4 +76,5 @@ public class ContratServiceImplTest {
     Contrat contrat = cr.retrieveContrat(listContrats);
     Assertions.assertNull(contrat);
   }
+  */
 }
