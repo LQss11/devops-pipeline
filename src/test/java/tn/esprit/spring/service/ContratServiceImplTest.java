@@ -47,7 +47,7 @@ public class ContratServiceImplTest {
   public void testRetrieveContrat() {
     //String listContrats =Integer.toString(cr.retrieveAllContrats().size() - 1)   ;
     //Long listContrats = Long.parseLong(Integer.toString(cr.retrieveAllContrats().size() - 1))   ;
-	 Long  listContrats = Long.parseLong("9");
+	 Long  listContrats = Long.parseLong("1");
 
     //Contrat contrat = cr.retrieveContrat(listContrats);
 
