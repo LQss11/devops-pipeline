@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+    # Spting boot app
+    spring_boot_app:
+      depends_on:
+        - db      
+      build:
+        context: ./spring-app
+      image: devopsspring:latest
+      ports:
+        - "8001:8082"
+      networks:
+        - cicd
+    #Jenkins container
+    jenkins:
+      build:
+        context: ./spring-app
+      image: lqssjenkins:latest
+      ports:
+        - 8002:8080
+        - 50000:50000
+      privileged: true
+      volumes:
+          - ./jenkins/jenkins_home:/var/jenkins_home
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /usr/bin/docker:/usr/bin/docker     
+      networks:
+        - cicd   
+
+
+
+    #Mysql db setup    
+    db:
+      image: mysql
+      container_name: mysqldb
+      restart: always
+      ports:
+        - '3306:3306'
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+      networks:
+        - cicd
+    #Phpmyadmin setup            
+    phpmyadmin:
+      depends_on:
+        - db
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      restart: always
+      ports:
+        - '8000:80'
+      environment:
+        PMA_HOST: db    
+      networks:
+        - cicd                          
+networks:
+  cicd:
+    driver: bridge
+
+

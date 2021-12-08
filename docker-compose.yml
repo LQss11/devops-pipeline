@@ -1,23 +1,61 @@
 version: "3.7"
 services:
-    # Spting boot app
-    spring_boot_app:
+    #Jenkins container
+    jenkins:
       build:
-        context: ./spring-app
+        context: ./jenkins
+      image: lqssjenkins:latest
       ports:
-        - "8080:8082"
+        - 8002:8080
+        - 50000:50000
+      privileged: true
+      volumes:
+          #- ./jenkins/jenkins_home:/var/jenkins_home
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /usr/bin/docker:/usr/bin/docker     
+      networks:
+        - cicd  
+    #sonarqube container     
+    sonarqube:
+      depends_on:
+        - db
+      #image: sonarqube:7.6-community
+      image: sonarqube:6.7
+      volumes:
+        - sonarqube_conf:/opt/sonarqube/conf
+        - sonarqube_data:/opt/sonarqube/data
+        - sonarqube_extensions:/opt/sonarqube/extensions
+        - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+        #- ./sonar/start.sh:/opt/sonarqube/start.sh
+        #- ./sonar/sonar-dependency-check-plugin-1.1.0.jar:/opt/sonarqube/extensions/plugins/sonar-dependency-check-plugin-1.1.0.jar        
       networks:
         - cicd
+      ports:
+        - '8003:9000'
+      #entrypoint: /opt/sonarqube/start.sh
+      environment:
+        - USER_LOGIN=admin
+        - USER_NAME=admin
+        - USER_PASSWORD=adminadmin
+        - SONARQUBE_JDBC_USERNAME=root
+        - SONARQUBE_JDBC_PASSWORD=root
+        - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+
+    #Mysql db setup    
     db:
-      image: mysql
+      image: mysql:5.7.32
       container_name: mysqldb
       restart: always
       ports:
         - '3306:3306'
+      #volumes:
+       # - ./mysql/custom-mysql.cnf:/etc/mysql/conf.d/custom-mysql.cnf
       environment:
-        MYSQL_ROOT_PASSWORD: root
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=timesheet-devops-db
       networks:
         - cicd
+    #Phpmyadmin setup            
     phpmyadmin:
       depends_on:
         - db
@@ -25,13 +63,17 @@ services:
       container_name: phpmyadmin
       restart: always
       ports:
-        - '7000:80'
+        - '8004:80'
       environment:
         PMA_HOST: db    
       networks:
-        - cicd       
+        - cicd                          
 networks:
   cicd:
     driver: bridge
-
+volumes:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
 
