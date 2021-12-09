@@ -27,6 +27,21 @@ Jenkins Homepage > Manage Jenkins > Manage Plugins > Available
 
 Search for Docker Pipeline install it restart jenkins and you are ready to go.
 
+
+http://localhost:8001/ 
+docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password" ---> get first password
+create new user
+
+
+
+--> make  the nexus user in the settings.xml in jenkins folder must match your admin in nexus
+/opt/apache-maven-3.5.4/conf/settings.xml ---> setup nexus3 server between <servers> </servers> tag
+    <server>
+      <id>deploymentRepo</id>
+      <username>admin</username>
+      <password>admin</password>
+    </server>
+
 build now
 
 mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 ---> run jenkins sonar test on a project after git clone

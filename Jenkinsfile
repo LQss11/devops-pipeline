@@ -36,6 +36,12 @@ pipeline {
         sh 'mvn package -Dmaven.test.skip=true'
       }
     }
+    stage('NEXUS') {
+      steps {
+        echo 'Nexus Packaging'
+        sh 'mvn clean package -Dmaven.test.skip=true deploy:deploy-file -DgroupId=tn.esprit.spring -DartifactId=timesheet-devops -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar  -DrepositoryId=sonartypeNexusRepo -Durl=http://nexus3:8081/repository/maven-releases/ -Dfile=target/timesheet-devops-1.0.jar'
+      }
+    }
     stage('Building our image') {
       steps {
         script {
@@ -54,8 +60,8 @@ pipeline {
     }
     stage('Cleaning up Docker Image') {
       steps {
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        bat "docker rmi $registry:$BUILD_NUMBER"
       }
-    }    
+    }
   }
 }
