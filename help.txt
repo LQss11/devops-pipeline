@@ -9,52 +9,43 @@ FUTURE UPDATES FOR README
 
 docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword" ---> will give secret
 
-install required plugins --> create user --> next
+Jenkins:
+        install required plugins --> create user --> next
 
-create new pipeline with required one
+        create dockerhub account with credentials
 
-http://localhost:8002/credentials/store/system/domain/_/newCredentials
-        Username with initialAdminPassword
-        Global jenkins ...
-        Docker Username
-        Docker initialAdminPassword
-        dockerhub_id ----> reference for  registryCredential
-        Dockerhub Account
+        create mail
 
-Install docker plugin 
-Jenkins Homepage > Manage Jenkins > Manage Plugins > Available
+        Install docker plugin 
+        Jenkins Homepage > Manage Jenkins > Manage Plugins > Available
+        Search for Docker Pipeline install it restart jenkins and you are ready to go.
 
-Search for Docker Pipeline install it restart jenkins and you are ready to go.
+        create the pipeline as steps in readme
+
+nexus
 
 
-http://localhost:8001/ 
-docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password" ---> get first password
-create new user
+        http://localhost:8001/ 
+        docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password" ---> get first password
+        create user 
+                admin admin
+                In case used other credintials make sure to check jenkinsfile and settings.xml in jenkins folder then update server credintials:
+
+        <server>
+        <id>deploymentRepo</id>
+        <username>admin</username>
+        <password>admin</password>
+        </server>
+
+sonar
+        since we are using docker container we will need to specify the sonar host url when running mvn sonar:sonar:
+        mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000
+
+change bat to sh if using linux; bat for windows
 
 
+don't forget to update your junit test files to match your database
 
---> make  the nexus user in the settings.xml in jenkins folder must match your admin in nexus
-/opt/apache-maven-3.5.4/conf/settings.xml ---> setup nexus3 server between <servers> </servers> tag
-    <server>
-      <id>deploymentRepo</id>
-      <username>admin</username>
-      <password>admin</password>
-    </server>
-
-build now
-
-mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 ---> run jenkins sonar test on a project after git clone
-
-Sonar have embedded H2 database but we need to setup a database for production  in newer versions mysql is not supported that's why we downgraded to older version
-
-git clone --single-branch -b spring-for-jenkins-with-docker  https://github.com/LQss11/devops-pipeline.git
-
-change bat to sh if using linux bat for windows
-
-
-don't forget to update the test file to match your database
-
-setup your credintials on jenkins
 
 later use .env file
 CTRL + SHIFT + F when creating env variables for ports

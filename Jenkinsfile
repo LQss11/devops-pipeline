@@ -72,7 +72,7 @@ pipeline {
     }
     stage('Cleaning up Docker Image') {
       steps {
-        bat "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }
