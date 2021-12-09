@@ -3,13 +3,25 @@ pipeline {
     registry = 'lqss/jenkins'
     registryCredential = 'dockerHub'
     dockerImage = ''
-  }    
+  }
   agent any
   stages {
+    stage('Mail Notification') {
+      steps {
+        echo 'Sending Mail'
+        mail bcc: '',
+        body: 'Jenkins Build Started',
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Jenkins Job',
+        to: 'example@domain.com'
+      }
+    }
     stage('Git') {
       steps {
         echo 'Cloning'
-        git branch: "spring-for-jenkins-with-docker", url: 'https://github.com/LQss11/devops-pipeline.git'
+        git branch: 'spring-for-jenkins-with-docker', url: 'https://github.com/LQss11/devops-pipeline.git'
       }
     }
     stage('MVN CLEAN') {
@@ -64,4 +76,26 @@ pipeline {
       }
     }
   }
+      post {
+        success {
+        echo 'whole pipeline successful'
+        mail bcc: '',
+        body: "Project with name ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER}, was built successfully. to check the build result go to build URL: ${env.BUILD_URL}",
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Build success',
+        to: 'example@domain.com'
+        }
+        failure {
+        echo 'pipeline failed, at least one step failed'
+        mail bcc: '',
+        body: "there was an error in  ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER} to check the error go to build URL: ${env.BUILD_URL}",
+        cc: '',
+        from: '',
+        replyTo: '',
+        subject: 'Build Failure',
+        to: 'example@domain.com'
+        }
+      }
 }

@@ -179,7 +179,9 @@ In order to use mailing service through your pipeline you can use the jenkins `m
   1. Finally ckeck Test configuration by sending test e-mail, type an email you want to test the service on then click `test configuration` -> you will recieve a mail once you click it and that means the service works properly for you and don't forget to save your settings.
 ### Mailing Issues
 Configuring the email service can be challenging sometimes once you encounter some annoying issues as happened for me
-
+```sh
+sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+```
 ```sh
 javax.mail.MessagingException: Could not connect to SMTP host: smtp.gmail.com, port: 465;
 ```

@@ -64,7 +64,8 @@ services:
           - mysql-data:/var/lib/mysql
       environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=sonarqube
+        #Initial database
+        - MYSQL_DATABASE=timesheet-devops-db
       networks:
         - cicd
     #Phpmyadmin setup            

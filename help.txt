@@ -2,11 +2,10 @@ Sonarqube version error
 
 FUTURE UPDATES FOR README
 
+8001 nexus
 8002 jenkins
 8003 sonarqube
 8004 phpmyadmin    
-
-create database called timesheet-devops-db in mysql localhost:8004
 
 docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword" ---> will give secret
 
