@@ -1,5 +1,12 @@
 version: "3.7"
 services:
+    #nexus sonartype
+    nexus: 
+      image: sonatype/nexus3:3.37.0
+      ports:
+        - 8001:8081
+      volumes:
+        - nexus-data:/nexus-data
     #Jenkins container
     jenkins:
       build:
@@ -73,6 +80,7 @@ networks:
   cicd:
     driver: bridge
 volumes:
+  nexus-data:
   mysql-data:
   jenkinsd-data:
   sonarqube_conf:
