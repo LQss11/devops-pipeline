@@ -120,7 +120,7 @@ Some of the variables are setup inside the .env file make sure noone get access 
 If your Jenkins pipeline is working properly this would be the output for each interface:
 **Jenkins Pipeline Output**  
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Pipeline-Success-Failure.png" title="Jenkins pipeline">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Pipeline-Success-Failure.PNG" title="Jenkins pipeline">
 </p> 
 
 **Nexus Output**  
