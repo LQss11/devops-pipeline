@@ -91,6 +91,28 @@ In this project username and password are used as admin admin in `/jenkins/setti
 
 In case you are building with jenkins the same project again you will need to make sure that it does not exist in the maven releases.
 
+## Ngrok Setup for github webhooks
+Working with github webhooks wouldn't work if your jenkins is not hosted on a server connected to the internet (localhost will not be allowed).
+In order to solve that all you have to do is work with **Ngrok** --> [Download Link](https://ngrok.com/download).
+To set it up simply type this cmd after running ngrok.
+Let's say jenkins is running on port **8002**.
+ 
+```sh
+ngrok http 8002
+```
+now ngrok will generate a http and https links for jenkins server that will be available to use with github webhooks.
+our link would look something like this xxxx-xxx-xxx-xxx-xxx.ngrok.io
+#### Github Setup
+  1. Select the repository you want to work with.
+  1. Go to `Settings`.
+  1. In options select `Webhooks` the create a new webhook (link must look like this https://REPOSITORY_URL/settings/hooks/new).
+  1. `Payload URL`: http://xxxx-xxx-xxx-xxx-xxx.ngrok.io/github-webhook/ 
+  1. `Content type`: application/json
+  1. `Which events would you like to trigger this webhook?`:Just the push event. 
+
+Now onece the project is fully setup once you push to that reposiroty, github will trigger that event to launch our jenkins pipeline. 
+
+
 # Env
 Some of the variables are setup inside the .env file make sure noone get access to that file since it contains most of the logins credentials
 
@@ -136,3 +158,4 @@ Hope this project helped you solve a problem or create something that satisfy yo
 In case you are willing to use a different spring boot project you will need to update some of the variables such as **artifact Id group Id and version** inside the jenkinsfile and more specifically in the nexus stage, also specify the branch you are cloning in jenkinsfile.
 Also as well as the database connection in the **application.properties** file which in this project we used this datasource 
 spring.datasource.url=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
