@@ -1,183 +1,122 @@
-## Timesheet-devops
-`Timesheet-devops` is an Academic project allowing us to automatically execute tasks as jobs through a jenkins pipeline using a spring boot project with some other tools.
-## Quick Start
- 1. Setup maven
- 1. Install sonar
- 1. Install nexus
- 1. Install jenkins
- 1. Install docker
- 1. Run sonar, nexus and jenkins servers
- 1. Verify for JUnit test the src\test\java\tn\esprit\spring\service\UserServiceImplTest.java file tests and make sure they do not produce failure or error
-
-### Dockerfile
-
-If you want to wawork  with files from local project you can use this dockerfile settings
-
+# Devops-pipeline
+`Devios-pipeline` help you set Up and automate a Continuous Integration & Delivery (CI/CD) process with Docker and Docker-compose.
+# Quick Start
+## Prerequisites 
+This project uses a set application but don't worry all of them are dockerized you will only need to have [Docker](https://docs.docker.com/engine/install/) and [Docker-compose](https://docs.docker.com/compose/install/) available on your computer.
+Also make sure to give enough ressources for your Docker engine to prevent some errors from happening such as **exit status 137 (out of memory) docker**...
+### Stats sample
+You can check your docker ressources stats by running `docker stats` command.
+In this example I have given 8.25G of ram to my docker engine and all container running together are eating at least 6G so it's highly recommended to give enough ressources
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/docker-stats.png" title="Jenkins pipeline">
+</p>  
+## Clone Repository
+In order to run the app on your computer you will need to clone this repository (or just download the files), select a directory then run:
 ```sh
-FROM openjdk:8-jdk-alpine
-EXPOSE 8082
-ADD target/timesheet-devops-1.0.jar timesheet-devops-1.0.jar
-ENTRYPOINT ["java","-jar","/timesheet-devops-1.0.jar"]
-
+git clone https://github.com/LQss11/devops-pipeline.git
 ```
-If you want to work with jar created in remote repository by nexus you will need to get your host  ip address 
-in order to access that address through the container, all you have to do is use `host.docker.internal`.
-
+get inside the repository:
 ```sh
-FROM openjdk:8-jdk-alpine
-EXPOSE 8082
-ADD http://host.docker.internal:8081/repository/maven-releases/tn/esprit/spring/timesheet-devops/1.0/timesheet-devops-1.0.jar timesheet-devops-1.0.jar
-ENTRYPOINT ["java","-jar","/timesheet-devops-1.0.jar"]
-
+cd devops-pipeline
 ```
-
-### Jenkins Pipeline
--Don't forget to setup your docker hub credentials and create a new repository with tag you can visit this URI in jenkins NShttp://JENKI_IP:JENKINS_PORT/credentials/store/system/domain/_/newCredentials
-
+## Running the Stack
+Now that you have files on your machine make sure you are on the same DIR as the docker-compose.yml file and run:
 ```sh
-pipeline {
-  environment {
-    registry = 'lqss/jenkins'
-    registryCredential = 'dockerHub'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-    stage('Mail Notification') {
-      steps {
-        echo 'Sending Mail'
-        mail bcc: '',
-        body: 'Jenkins Build Started',
-        cc: '',
-        from: '',
-        replyTo: '',
-        subject: 'Jenkins Job',
-        to: 'examplemail@gmail.com'
-      }
-    }
-    stage('GIT Clone') {
-      steps {
-        echo 'Getting Project from Git'
-        git 'https://github.com/LQss11/devops-pipeline.git'
-      }
-    }
-    stage('MVN CLEAN') {
-      steps {
-        echo 'Maven Clean'
-        bat 'mvn clean'
-      }
-    }
-    stage('MVN TEST JUNIT') {
-      steps {
-        echo 'Maven Test JUnit'
-        bat 'mvn test'
-      }
-    }
-    stage('MVN TEST SONAR') {
-      steps {
-        echo 'Sonar Test Code Quality'
-        bat 'mvn sonar:sonar'
-      }
-    }
-    stage('MVN PACKAGE') {
-      steps {
-        echo 'Maven Packaging'
-        bat 'mvn package -Dmaven.test.skip=true'
-      }
-    }
-    stage('NEXUS') {
-      steps {
-        echo 'Nexus Packaging'
-        bat 'mvn clean package -Dmaven.test.skip=true deploy:deploy-file -DgroupId=tn.esprit.spring -DartifactId=timesheet-devops -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar  -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/timesheet-devops-1.0.jar'
-      }
-    }
-    stage('Building our image') {
-      steps {
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
-      }
-    }
-    stage('Deploy image to Docker Hub') {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-    stage('Cleaning up Docker Image') {
-      steps {
-        bat "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
-  }
-      post {
-        success {
-        echo 'whole pipeline successful'
-        mail bcc: '',
-        body: "Project with name ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER}, was built successfully. to check the build result go to build URL: ${env.BUILD_URL}",
-        cc: '',
-        from: '',
-        replyTo: '',
-        subject: 'Build success',
-        to: 'examplemail@gmail.com'
-        }
-        failure {
-        echo 'pipeline failed, at least one step failed'
-        mail bcc: '',
-        body: "there was an error in  ${env.JOB_NAME}, with Build Number: ${env.BUILD_NUMBER} to check the error go to build URL: ${env.BUILD_URL}",
-        cc: '',
-        from: '',
-        replyTo: '',
-        subject: 'Build Failure',
-        to: 'examplemail@gmail.com'
-        }
-      }
-}
+docker-compose up --build
 ```
+This command will build docker Images from specified context and start all the containers with their required settings.
+# Setup
+## Tools
+These are some of the Images we used to setup our stack, with the help of **Docker version 20.10.7**  using docker desktop on windows:
+| Name | Version | Port Mapping |
+| ------ | ------ | ------ |
+| Apache Maven | 3.5.4 | |
+| Sonatype Nexus3 | sonatype/nexus3:3.37.0 | 8001:8081 |
+| Jenkins | jenkins/jenkins:lts | 8002:8080 |
+| sonarqube | sonarqube:7.6-community | 8003:9000 |
+| Mysqldb | mysql:5.7.32 | 3306:3306 |
+| phpmyadmin | phpmyadmin/phpmyadmin:5.1.1 | 8004:80 |
+## Jenkins Configuration
+Once your stack up and ready you will need to setup your jenkins environment, and the first thing you will be asked to do is to unlock Jenkins using a secret password you by visiting http://localhost:8002.
+ To get the secret you will need to execute this command:
+```sh
+docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword"
+```
+The secret will look something like `8d8089564a0d4ec99182814fecafb5b8` copy paste it into the password field.
 
-# Automatic Jenkins Pipeline test
-
-## Jenkins Setup
+Now that you have unlocked jenkins, in the next page select **Install suggested plugins**, wait for it to finish then create you first admin user.
+### Docker Pipeline plugin installation
+In this project we are going to use the **Docker Pipeline plugin** in order to run docker commands in the pipeline with the help of docker engine's Unix Socket or **docker.sock**
+  1. http://localhost:8002/pluginManager/available
+  1. Available.
+  1. Search Docker pipeline and select the plugin.
+  1. Install without restart.
+  1. Once plugin installed click on **Restart Jenkins when installation is complete and no jobs are running** checkbox.
+### Docker Hub Account
+In order to push images into your docker hub repository you will need to set up credentials for jenkins by following these steps:
+  1. visit http://localhost:8002/credentials/store/system/domain/_/newCredentials
+  1. Set dockerhub **username**
+  1. Set dockerhub **password**
+  1. Set dockerhub Id which in fact the key that will be used in the Jenkinsfile in our case it's **dockerHub**
+  1. Set dockerhub description for example: **Docker Hub Account** then click ok
+### Mail setup
+In order to use mailing service through your pipeline you can use the jenkins **mailer plugin** then all you have to do is set up the mailing notification configuration as the following details:
+  1. Go to Jenkins configuration page -> http://localhost:8002/configure
+  1. Go all the way down to **E-mail Notification**
+  1. **SMTP server**: smtp.gmail.com
+  1. Click advanced
+  1. Check **Use SMTP Authentication** and **Use SSL**
+  1. **User Name**: email@gmail.com
+  1. **Password**: email password
+  1. **SMTP Port**: 465
+  1. Finally ckeck Test configuration by sending test e-mail, type an email you want to test the service on then click `test configuration` -> you will recieve a mail once you click it and that means the service works properly, and don't forget to save your settings.  
+### Pipeline setup
 Create A new jenkins pipeline.
 In `Build Triggers` check the `GitHub hook trigger for GITScm polling` box.
 In `Pipeline -> Definition` select `Pipeline script from SCM ` then use these parameters:
   1. `Repository URL`:https://github.com/LQss11/devops-pipeline.git
   1. `Branch Specifier (blank for 'any')`:*/master
-  1. `Script Path`:Jenkinsfile
-## Ngrok Setup 
-Working with github webhooks wouldn't work if your jenkins is not hosted on a server connected to the internet (localhost will not be allowed).
-In order to solve that all you have to do is work with `Ngrok` --> [Download Link](https://ngrok.com/download).
-To set it up simply type this cmd after running ngrok.
-Let's say jenkins is running on port `8083`.
- 
+  1. `Script Path`:Jenkinsfile (you can chose another Jenkinsfile name and path if you are working with a different repository)  
+  1. Once you finished setting up your project following this README.md file you will be able to run your project and see all stages progress. 
+## Sonatype Nexus3 Configuration
+Configuring Nexus is a bit similar to the first step of Jenkins where we will need to extract a secret to create our admin user.
+  1. Visit http://localhost:8002.
+  1. Click on **Sign in** on top right corner then enter **admin** username with secret from this command:
 ```sh
-ngrok http 8083
+docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password"
 ```
-now ngrok will generate a http and https links for jenkins server that will be available to use with github webhooks.
-our link would look something like this xxxx-xxx-xxx-xxx-xxx.ngrok.io
-## Github Setup
-  1. Select the repository you want to work with.
-  1. Go to `Settings`.
-  1. In options select `Webhooks` the create a new webhook (link must look like this https://REPOSITORY_URL/settings/hooks/new).
-  1. `Payload URL`: http://xxxx-xxx-xxx-xxx-xxx.ngrok.io/github-webhook/ 
-  1. `Content type`: application/json
-  1. `Which events would you like to trigger this webhook?`:Just the push event. 
+  1. Chose a password for your adminstrator.
+#### Notice
+In this project username and password are used as admin admin in `/jenkins/settings.xml` and `Jenkinsfile` and `.env` for nexus deployement, if you wish to create different credentials make sure to change them as you have set them up in nexus.
 
-# Mailing
-In order to use mailing service through your pipeline you can use the jenkins `mailer` plugin then all you have to do is set up the mailing notification configuration as the following details:
-  1. Go to Jenkins configuration page -> `http://JENKINS_URL_AND_PORT/configure`
-  1. Go all the way down to `E-mail Notification`
-  1. `SMTP server`: smtp.gmail.com
-  1. Click advanced
-  1. Check `Use SMTP Authentication`and `Use SSL`
-  1. `User Name`: sender email
-  1. `Password`: email password
-  1. `SMTP Port`: 465
-  1. Finally ckeck Test configuration by sending test e-mail, type an email you want to test the service on then click `test configuration` -> you will recieve a mail once you click it and that means the service works properly for you and don't forget to save your settings.
-### Mailing Issues
+In case you are building with jenkins the same project again you will need to make sure that it does not exist in the maven releases.
+
+# Env
+Some of the variables are setup inside the .env file make sure noone get access to that file since it contains most of the logins credentials
+
+# Output
+If your Jenkins pipeline is working properly this would be the output for each interface:
+**Jenkins Pipeline Output**  
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Pipeline-Success-Failure.png" title="Jenkins pipeline">
+</p> 
+
+**Nexus Output**  
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Nexus.png" title="Nexus">
+</p> 
+
+**Sonarqube Output**  
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Sonarqube.png" title="Sonarqube">
+</p> 
+
+**Phpmyadmin Output**  
+<p align="center">
+  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Mysql.png" title="Mysql">
+</p> 
+
+## Jenkins Mailing Issues
 Configuring the email service can be challenging sometimes once you encounter some annoying issues as happened for me
 ```sh
 sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
@@ -192,7 +131,8 @@ If you encountred one of these issues it is most likely that you havent allowed 
 
 If you have any issue feel free to post you issue in the `Issues section` and I would be so happy to help you
 
-## Jenkins pipeline final result 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/Jenkins_Results.png" title="Jenkins pipeline">
-</p>
+# Information
+Hope this project helped you solve a problem or create something that satisfy you in any way, feel free to contact me or post issues if you have any problem I would be more than happy to help.
+In case you are willing to use a different spring boot project you will need to update some of the variables such as **artifact Id group Id and version** inside the jenkinsfile and more specifically in the nexus stage, also specify the branch you are cloning in jenkinsfile.
+Also as well as the database connection in the **application.properties** file which in this project we used this datasource 
+spring.datasource.url=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC

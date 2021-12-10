@@ -123,9 +123,9 @@ under the License.
     </server>
     -->
     <server>
-      <id>${SERVER_ID}</id>
-      <username>${SERVER_USERNAME}</username>
-      <password>${SERVER_PASSWORD}</password>
+      <id>sonartypeNexusRepo</id>
+      <username>admin</username>
+      <password>admin</password>
     </server>
     <!-- Another sample, using keys to authenticate.
     <server>

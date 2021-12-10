@@ -5,7 +5,7 @@ FUTURE UPDATES FOR README
 ${NEXUS_PORT} nexus
 ${JENKINS_PORT} jenkins
 ${SONAR_PORT} sonarqube
-8004 phpmyadmin    
+${PHPMYADMIN_PORT} phpmyadmin    
 
 docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword" ---> will give secret
 
