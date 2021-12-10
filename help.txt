@@ -2,9 +2,9 @@ Sonarqube version error
 
 FUTURE UPDATES FOR README
 
-8001 nexus
-8002 jenkins
-8003 sonarqube
+${NEXUS_PORT} nexus
+${JENKINS_PORT} jenkins
+${SONAR_PORT} sonarqube
 8004 phpmyadmin    
 
 docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword" ---> will give secret
@@ -25,7 +25,7 @@ Jenkins:
 nexus
 
 
-        http://localhost:8001/ 
+        http://localhost:${NEXUS_PORT}/ 
         docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password" ---> get first password
         create user 
                 admin admin
@@ -46,6 +46,7 @@ change bat to sh if using linux; bat for windows
 
 don't forget to update your junit test files to match your database
 
+Make sure your docker host has at required RAM associated
 
 later use .env file
 CTRL + SHIFT + F when creating env variables for ports
