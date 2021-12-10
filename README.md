@@ -155,7 +155,9 @@ If you have any issue feel free to post you issue in the `Issues section` and I 
 
 # Information
 Hope this project helped you solve a problem or create something that satisfy you in any way, feel free to contact me or post issues if you have any problem I would be more than happy to help.
-In case you are willing to use a different spring boot project you will need to update some of the variables such as **artifact Id group Id and version** inside the jenkinsfile and more specifically in the nexus stage, also specify the branch you are cloning in jenkinsfile.
-Also as well as the database connection in the **application.properties** file which in this project we used this datasource 
-spring.datasource.url=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+## Help 
+  1. In case using different spring boot project: change **artifact Id group Id and version** in Nexus stage inside the **Jenkinsfile**
+  1. Spring Boot Datasource url connection: `spring.datasource.url=jdbc:mysql://db:3306/timesheet-devops-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC`
+  1. change bat to sh in the Jenkinsfile depending on your machine OS.
 
