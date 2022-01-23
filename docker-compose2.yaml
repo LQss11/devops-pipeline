@@ -9,7 +9,8 @@ services:
           - JENKINS_USER=${JENKINS_USER}        
           - JENKINS_PASS=${JENKINS_PASS}                  
           - DOCKER_USER=${DOCKER_USER}        
-          - DOCKER_PASS=${DOCKER_PASS} 
+          - DOCKER_PASS=${DOCKER_PASS}
+          - JENKINS_PORT=${JENKINS_PORT}
       container_name: jenkins
       ports:
         - 9090:8080

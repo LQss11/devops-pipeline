@@ -44,31 +44,11 @@ These are some of the Images we used to set up our stack, with the help of **Doc
 | phpmyadmin | phpmyadmin/phpmyadmin:5.1.1 | 8004:80 |
 
 ## Jenkins Configuration
-Once your stack up and ready you will need to set up your Jenkins environment, and the first thing you will be asked to do is to unlock Jenkins using a secret password by visiting http://localhost:8002.
- To get the secret you will need to execute this command:
-```sh
-docker exec -it jenkins /bin/bash -c "cat /var/jenkins_home/secrets/initialAdminPassword"
-```
-The secret will look something like `8d8089564a0d4ec99182814fecafb5b8` copy-paste it into the password field.
-
-Now that you have unlocked Jenkins, on the next page select **Install suggested plugins**, wait for it to finish then create your first admin user.
-
-### Docker Pipeline plugin installation
-In this project, we are going to use the **Docker Pipeline plugin** in order to run docker commands in the pipeline with the help of the Docker engine's Unix Socket or **docker.sock**
-  1. http://localhost:8002/pluginManager/available
-  1. Available.
-  1. Search Docker pipeline and select the plugin.
-  1. Install without restart.
-  1. Once the plugin is installed click on **Restart Jenkins when installation is complete and no jobs are running** checkbox.
+In this project the main goal was to make allow you setup and use jenkins easier so I created **default-user.groovy** script to setup initial admin user, also used **JAVA_OPTS -Djenkins.install.runSetupWizard=false** in the docker file to ignore initial secrets.
 
 ### Docker Hub Account
-In order to push images into your docker hub repository you will need to set up credentials for Jenkins by following these steps:
-  1. visit http://localhost:8002/credentials/store/system/domain/_/newCredentials
-  1. Set docker hub **username**
-  1. Set docker hub **password**
-  1. Set docker hub Id which in fact the key that will be used in the Jenkinsfile in our case it's **dockerHub**
-  1. Set docker hub description for example: **Docker Hub Account** then click ok
-
+Setup your dockerhub credentials by updating the values of **DOCKER_USER** and **DOCKER_PASS** in `.env` file.
+You can check the user by going to this url: http://localhost:8002/credentials/store/system/domain/_/.
 ### Mail setup
 In order to use mailing service through your pipeline you can use the Jenkins **mailer plugin** then all you have to do is set up the mailing notification configuration like the following details:
   1. Go to Jenkins configuration page -> http://localhost:8002/configure
@@ -92,7 +72,7 @@ In `Pipeline -> Definition` select `Pipeline script from SCM ` then use these pa
 
 ## Sonatype Nexus3 Configuration
 Configuring Nexus is a bit similar to the first step of Jenkins where we will need to extract a secret to create our admin user.
-  1. Visit http://localhost:8002.
+  1. Visit http://localhost:8001.
   1. Click on **Sign in** on top right corner then enter **admin** username with secret from this command:
 ```sh
 docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password"
