@@ -14,23 +14,26 @@ services:
     #Jenkins container
     jenkins:
       build:
-        context: ./jenkins    
+        context: .
+        dockerfile: ./jenkins/
         args:  
-          - MAVEN_V=${MAVEN_VERSION}    
-      image: lqssjenkins:latest
+          - MAVEN_V=${MAVEN_VERSION}  
+          - JENKINS_USER=${JENKINS_USER}        
+          - JENKINS_PASS=${JENKINS_PASS}                  
+          - DOCKER_USER=${DOCKER_USER}        
+          - DOCKER_PASS=${DOCKER_PASS}
+          - JENKINS_PORT=${JENKINS_PORT}
       container_name: jenkins
       ports:
         - ${JENKINS_PORT}:8080
-      #  - 50000:50000
+        - 50000:50000
       privileged: true
       volumes:
-          #- ./jenkins/secrets:/var/jenkins_home/secrets
-          - "./jenkins/settings.xml:/opt/apache-maven-${MAVEN_VERSION}/conf/settings.xml" # For the nexus server setup
-          - jenkinsd-data:/var/jenkins_home # Persist jenkins Data
-          - /var/run/docker.sock:/var/run/docker.sock # Allow jenkins to run docker commands
-          - /usr/bin/docker:/usr/bin/docker   
-      #environment:
-      #  JENKINS_SECRET: 'examplesecret'            
+        - "./jenkins/settings.xml:/opt/apache-maven-${MAVEN_VERSION}/conf/settings.xml" # For the nexus server setup
+        - jenkins_data:/var/jenkins_home
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /usr/bin/docker:/usr/bin/docker
+        - /usr/bin/docker-compose:/usr/bin/docker-compose
       networks:
         - cicd  
     #sonarqube container     
@@ -92,7 +95,7 @@ networks:
 volumes:
   nexus-data:
   mysql-data:
-  jenkinsd-data:
+  jenkins_data:
   sonarqube_conf:
   sonarqube_data:
   sonarqube_extensions:
