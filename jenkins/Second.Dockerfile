@@ -2,19 +2,20 @@ FROM jenkins/jenkins:lts
 
 ARG MAVEN_V
 
+
+# Use root user
 USER root
 
 # install wget
-RUN apt-get update
-RUN apt-get install -y wget
+RUN apt-get update && apt-get install -y wget
 
 # Install docker pipeline plugin
 RUN jenkins-plugin-cli --plugins docker-workflow:1.27
 # Install plugins for initial admin user setup script (blueocean:1.25.2 maven-plugin:3.16)
-RUN jenkins-plugin-cli --plugins matrix-auth:3.0 
+# RUN jenkins-plugin-cli --plugins matrix-auth:3.0 
+
 # get maven
 RUN wget --no-verbose -O /tmp/apache-maven-$MAVEN_V-bin.tar.gz http://apache.cs.utah.edu/maven/maven-3/$MAVEN_V/binaries/apache-maven-$MAVEN_V-bin.tar.gz
-
 
 # install maven
 RUN tar xzf /tmp/apache-maven-$MAVEN_V-bin.tar.gz -C /opt/
@@ -28,13 +29,21 @@ RUN chown -R jenkins:jenkins /opt/maven
 ENV MAVEN_HOME /opt/maven
 
 # Jenkins default admin user name and password 
-ENV JENKINS_USER admin
-ENV JENKINS_PASS admin
+ARG JENKINS_USER
+ARG JENKINS_PASS
+ENV JENKINS_USER $JENKINS_USER
+ENV JENKINS_PASS $JENKINS_PASS
+
+# Dockerfile credentials for the dockerhub-cred.groovy script
+ARG DOCKER_USER
+ARG DOCKER_PASS
+ENV DOCKER_USER $DOCKER_USER
+ENV DOCKER_PASS $DOCKER_PASS
 
 # Skip both install and upgrade wizards -- this will not enable security options 
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
-#COPY /jenkins/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY /jenkins/dockerhub-cred.groovy /usr/share/jenkins/ref/init.groovy.d/
 # Create default admin user
 ENV JENKINS_OPTS--argumentsRealm.roles.user=$JENKINS_USER --argumentsRealm.passwd.admin=$JENKINS_PASS --argumentsRealm.roles.admin=admin
 # remove download archive files

@@ -5,7 +5,11 @@ services:
         context: .
         dockerfile: ./jenkins/Second.Dockerfile
         args:  
-          - MAVEN_V=${MAVEN_VERSION}    
+          - MAVEN_V=${MAVEN_VERSION}  
+          - JENKINS_USER=${JENKINS_USER}        
+          - JENKINS_PASS=${JENKINS_PASS}                  
+          - DOCKER_USER=${DOCKER_USER}        
+          - DOCKER_PASS=${DOCKER_PASS} 
       container_name: jenkins
       ports:
         - 9090:8080
