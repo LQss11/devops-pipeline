@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+    jenkins:
+      build:
+        context: .
+        dockerfile: ./jenkins/Second.Dockerfile
+        args:  
+          - MAVEN_V=${MAVEN_VERSION}    
+      container_name: jenkins
+      ports:
+        - 9090:8080
+        - 50000:50000
+      privileged: true
+      volumes:
+        #- jenkins_data:/var/jenkins_home
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /usr/bin/docker:/usr/bin/docker
+        - /usr/bin/docker-compose:/usr/bin/docker-compose
+      #environment:
+        #- JAVA_OPTS: -Djenkins.install.runSetupWizard="false" #https://www.jenkins.io/doc/book/managing/system-properties/
+        #- JENKINS_OPTS: '--prefix="localhost:9090"'
+        #- JENKINS_USER: 'adminx'
+        #- JENKINS_PASS: 'adminx'
+volumes:
+  jenkins_data:
+    driver: local
+    name: jenkins_data        
+        
