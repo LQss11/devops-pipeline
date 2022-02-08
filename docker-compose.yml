@@ -15,7 +15,7 @@ services:
     jenkins:
       build:
         context: .
-        dockerfile: ./jenkins/
+        dockerfile: ./jenkins/Dockerfile
         args:  
           - MAVEN_V=${MAVEN_VERSION}  
           - JENKINS_USER=${JENKINS_USER}        
