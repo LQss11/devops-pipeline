@@ -8,36 +8,11 @@ USER root
 # install wget
 RUN apt-get update && apt-get install -y wget
 
-# Install Initial plugins --skip-failed-plugins 
-RUN jenkins-plugin-cli --plugins authorize-project \
-    ace-editor ant antisamy-markup-formatter pam-auth \
-    apache-httpcomponents-client-4-api bootstrap4-api \ 
-    bootstrap5-api bouncycastle-api branch-api okhttp-api \ 
-    build-timeout caffeine-api checks-api momentjs \ 
-    cloudbees-folder command-launcher credentials-binding \ 
-    credentials display-url-api durable-task echarts-api \ 
-    email-ext font-awesome-api git-client git-server git \
-    github-api github-branch-source github gradle handlebars \
-    jackson2-api javax-activation-api javax-mail-api jaxb \ 
-    jdk-tool jjwt-api jquery3-api jsch junit ldap \
-    lockable-resources mailer matrix-auth matrix-project \
-    pipeline-build-step pipeline-github-lib \
-    pipeline-graph-analysis pipeline-input-step \
-    pipeline-model-api pipeline-model-definition \
-    pipeline-model-extensions pipeline-rest-api \ 
-    pipeline-stage-step pipeline-stage-tags-metadata \ 
-    pipeline-stage-view plain-credentials plugin-util-api \
-    popper-api popper2-api resource-disposer scm-api \ 
-    pipeline-milestone-step script-security snakeyaml-api \
-    ssh-credentials ssh-slaves sshd structs timestamper \
-    token-macro trilead-api workflow-aggregator workflow-api \
-    workflow-basic-steps workflow-cps-global-lib workflow-cps \ 
-    workflow-durable-task-step workflow-job workflow-multibranch \
-    workflow-scm-step workflow-step-api workflow-support ws-cleanup
-# Install docker pipeline plugin
-RUN jenkins-plugin-cli --plugins docker-workflow:1.27
-# Install plugins for initial admin user setup script (blueocean:1.25.2 maven-plugin:3.16)
-RUN jenkins-plugin-cli --plugins matrix-auth:3.0 
+# Install init plugins
+RUN jenkins-plugin-cli --plugins docker-workflow cloudbees-folder timestamper \
+ws-cleanup pipeline-stage-view pam-auth pipeline-github-lib \
+matrix-auth ssh build-timeout github-branch-source  ssh-slaves \
+email-ext antisamy-markup-formatter workflow-aggregator git ldap authorize-project
 
 # get maven
 RUN wget --no-verbose -O /tmp/apache-maven-$MAVEN_V-bin.tar.gz http://apache.cs.utah.edu/maven/maven-3/$MAVEN_V/binaries/apache-maven-$MAVEN_V-bin.tar.gz
