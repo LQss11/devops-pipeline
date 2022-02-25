@@ -60,6 +60,33 @@ In order to use mailing service through your pipeline you can use the Jenkins **
   1. **Password**: email password
   1. **SMTP Port**: 465
   1. Finally check Test configuration by sending a test e-mail, type an email you want to test the service on then click `test configuration` -> you will receive a mail once you click it and that means the service works properly, and don't forget to save your settings.  
+> ### Update (Jenkins configuration as code)
+You can alose setup the email using JCasC with a yaml file ( you can find it in `/jenkins/mailer-config.yaml`).
+
+In that file you will need to setup just your email address you are going to use and the password so you can type the **email** in **plain text** but for the password you will need an encrypted password (AES-128), to do so you can simple go to:
+```
+http://localhost:8002/script
+```
+then type the following script (update your password to match your email's pass)
+```groovy
+import hudson.util.Secret
+
+def secret = Secret.fromString("Your Password")
+println(secret.getEncryptedValue())
+```
+Once you run the script you will get a new encrypted password, simply copy then paste it in the Config file password field.
+
+Now we are going to simply use that file to apply the new mail configuration by visiting:
+```
+http://localhost:8002/configuration-as-code/
+```
+then copying the configuration file path (or URL)
+```
+/var/jenkins_home/JCasC/mailer-conf.yaml
+```
+and finally apply new configuration!
+
+> You can use the JCasC for your desire find more [here](https://plugins.jenkins.io/configuration-as-code/)
 
 ### Pipeline setup
 Create A new Jenkins pipeline.
