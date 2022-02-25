@@ -1,0 +1,10 @@
+unclassified:
+  mailer:
+    authentication:
+      password: "AES-128-Encrypted password"
+      username: "email@domain.com"
+    charset: "UTF-8"
+    smtpHost: "smtp.gmail.com"
+    smtpPort: "465"
+    useSsl: true
+    useTls: false
