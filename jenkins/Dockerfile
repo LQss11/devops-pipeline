@@ -43,16 +43,15 @@ ENV DOCKER_PASS $DOCKER_PASS
 ARG JENKINS_PORT
 ENV JENKINS_PORT $JENKINS_PORT
 
-# Skip both install and upgrade wizards -- this will not enable security options 
+# Skip install plugins wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+# JAVA mem heap size
+ENV JAVA_OPTS -Xms2g -Xmx3g
 
 # Init script to create docker hub credentials
 COPY /jenkins/dockerhub-cred.groovy /usr/share/jenkins/ref/init.groovy.d/
 # Init script to create default admin user
 COPY /jenkins/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
-# Create default admin user
-#ENV JENKINS_OPTS--argumentsRealm.roles.user=$JENKINS_USER --argumentsRealm.passwd.admin=$JENKINS_PASS --argumentsRealm.roles.admin=admin
-
 
 # remove download archive files
 RUN apt-get clean
