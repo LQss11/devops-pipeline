@@ -6,13 +6,14 @@ ARG MAVEN_V
 USER root
 
 # install wget
-RUN apt-get update && apt-get install -y wget
+RUN apt-get update && apt-get install -y wget vim
 
 # Install init plugins
 RUN jenkins-plugin-cli --plugins docker-workflow cloudbees-folder timestamper \
 ws-cleanup pipeline-stage-view pam-auth pipeline-github-lib \
 matrix-auth ssh build-timeout github-branch-source  ssh-slaves \
-email-ext antisamy-markup-formatter workflow-aggregator git ldap authorize-project
+email-ext antisamy-markup-formatter workflow-aggregator git ldap authorize-project \
+configuration-as-code
 
 # get maven
 RUN wget --no-verbose -O /tmp/apache-maven-$MAVEN_V-bin.tar.gz http://apache.cs.utah.edu/maven/maven-3/$MAVEN_V/binaries/apache-maven-$MAVEN_V-bin.tar.gz
