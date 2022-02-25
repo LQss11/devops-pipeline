@@ -53,6 +53,10 @@ COPY /jenkins/dockerhub-cred.groovy /usr/share/jenkins/ref/init.groovy.d/
 # Init script to create default admin user
 COPY /jenkins/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
 
+# Copy the scm job to use jenkinsfile (Job name: SpringBootCICD)
+COPY /jenkins/jobs /var/jenkins_home/jobs
+
+
 # remove download archive files
 RUN apt-get clean
 
