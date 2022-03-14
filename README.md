@@ -115,7 +115,7 @@ docker exec -it nexus3 /bin/bash -c "cat /nexus-data/admin.password"
 ```
   1. Chose a password for your administrator.
 
-#### Notice
+### Notice
 In this project username and password are used as admin admin in `/jenkins/settings.xml` and `Jenkinsfile` and `.env` for nexus deployment, if you wish to create different credentials make sure to change them as you have set them up in nexus.
 
 In case you are building with Jenkins the same project again you will need to make sure that it does not exist in the maven releases.
