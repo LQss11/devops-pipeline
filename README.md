@@ -14,7 +14,7 @@ In this example, I have given 8.25G of ram to my docker engine and all container
 </p>  
 
 ## Clone Repository
-In order to run the app on your computer you will need to clone this repository (or just download the files), select a directory then run:
+To run the app on your computer you will need to clone this repository (or just download the files), select a directory then run:
 ```sh
 git clone https://github.com/LQss11/devops-pipeline.git
 ```
@@ -44,7 +44,7 @@ These are some of the Images we used to set up our stack, with the help of **Doc
 | phpmyadmin | phpmyadmin/phpmyadmin:5.1.1 | 8004:80 |
 
 ## Jenkins Configuration
-In this project the main goal was to make allow you setup and use jenkins easier so I created **default-user.groovy** script to setup initial admin user, also used **JAVA_OPTS -Djenkins.install.runSetupWizard=false** in the docker file to ignore initial secrets.
+In this project, the main goal was to make allow you setup and use jenkins easier so I created **default-user.groovy** script to setup initial admin user, also used **JAVA_OPTS -Djenkins.install.runSetupWizard=false** in the docker file to ignore initial secrets.
 
 ### Docker Hub Account
 Setup your dockerhub credentials by updating the values of **DOCKER_USER** and **DOCKER_PASS** in `.env` file.
@@ -61,9 +61,9 @@ In order to use mailing service through your pipeline you can use the Jenkins **
   1. **SMTP Port**: 465
   1. Finally check Test configuration by sending a test e-mail, type an email you want to test the service on then click `test configuration` -> you will receive a mail once you click it and that means the service works properly, and don't forget to save your settings.  
 > ### Update (Jenkins configuration as code)
-You can alose setup the email using JCasC with a yaml file ( you can find it in `/jenkins/mailer-config.yaml`).
+You can also setup the email using JCasC with a yaml file ( you can find it in `/jenkins/mailer-config.yaml`).
 
-In that file you will need to setup just your email address you are going to use and the password so you can type the **email** in **plain text** but for the password you will need an encrypted password (AES-128), to do so you can simple go to:
+In that file, you will need to set up just your email address you are going to use and the password so you can type the **email** in **plain text** but for the password, you will need an encrypted password (AES-128), to do so you can simply go to:
 ```
 http://localhost:8002/script
 ```
@@ -74,17 +74,17 @@ import hudson.util.Secret
 def secret = Secret.fromString("Your Password")
 println(secret.getEncryptedValue())
 ```
-Once you run the script you will get a new encrypted password, simply copy then paste it in the Config file password field.
+Once you run the script you will get a new encrypted password, simply copy then paste it into the Config file password field.
 
 Now we are going to simply use that file to apply the new mail configuration by visiting:
 ```
 http://localhost:8002/configuration-as-code/
 ```
-then copying the configuration file path (or URL)
+then copy the configuration file path (or URL)
 ```
 /var/jenkins_home/JCasC/mailer-conf.yaml
 ```
-and finally apply new configuration!
+and finally, apply a new configuration!
 
 > You can use the JCasC for your desire find more [here](https://plugins.jenkins.io/configuration-as-code/)
 
@@ -133,7 +133,7 @@ our link would look something like this xxxx-xxx-xxx-xxx-xxx.ngrok.io
 Now once the project is fully set up once you push to that repository, GitHub will trigger that event to launch our Jenkins pipeline. 
 
 # Env
-Some of the variables are set up inside the .env file to make sure no one get access to that file since it contains most of the logins credentials
+Some of the variables are set up inside the .env file to make sure no one gets access to that file since it contains most of the logins credentials
 
 # Output
 If your Jenkins pipeline is working properly this would be the output for each interface:
