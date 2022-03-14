@@ -1,47 +1,50 @@
 # Devops-pipeline
 `DevOps-pipeline` helps you set Up and automate a Continuous Integration & Delivery (CI/CD) process with Docker and Docker-compose.
 
-# Quick Start
 ## Prerequisites 
-This project uses a set of applications, but don't worry all of them are dockerized you will only need to have [Docker](https://docs.docker.com/engine/install/) and [Docker-compose](https://docs.docker.com/compose/install/) available on your computer.
-Also, make sure to give enough resources for your Docker engine to prevent some errors from happening such as **exit status 137 (out of memory) docker**...
+This project uses a set of open source containerzed applications, you will only need to have [Docker](https://docs.docker.com/engine/install/) and [Docker-compose](https://docs.docker.com/compose/install/) available on your computer.
+Also.
+
+>make sure to give enough resources for your Docker engine to prevent some errors from happening such as **exit status 137 (out of memory) docker**...
 
 ### Stats sample
 You can check your docker Ressources stats by running `docker stats` command.
-In this example, I have given 8.25G of ram to my docker engine and all container running together are eating at least 6G so it's highly recommended to give enough resources
+In this example, I have given 8.25G of ram to my docker engine and all container are running together are using at least 6G so it's highly recommended to give enough resources.
 <p align="center">
   <img src="https://raw.githubusercontent.com/LQss11/devops-pipeline/master/images/docker-stats.png" title="Jenkins pipeline">
 </p>  
 
+# Quick Start
 ## Clone Repository
-To run the app on your computer you will need to clone this repository (or just download the files), select a directory then run:
+To run the app on your computer you will need to clone this repository by running:
 ```sh
 git clone https://github.com/LQss11/devops-pipeline.git
 ```
-get inside the repository:
+then :
 ```sh
 cd devops-pipeline
 ```
 
 ## Running the Stack
-Now that you have files on your machine make sure you are on the same DIR as the docker-compose.yml file and run:
+In order to run the stack we will be running our **docker compose configuration**:
 ```sh
 docker-compose up --build
 ```
-This command will build Docker Images from a specified context and start all the containers with their required settings.
+>Don't forget to check and update `.env` file if necessary. 
 
 # Setup
 ## Tools
-These are some of the Images we used to set up our stack, with the help of **Docker version 20.10.7**  using docker desktop on windows:
+These are some of the Images we used to set up our stack:
 
-| Name | Version | Port Mapping |
-| ------ | ------ | ------ |
-| Apache Maven | 3.5.4 | |
-| Sonatype Nexus3 | sonatype/nexus3:3.37.0 | 8001:8081 |
-| Jenkins | jenkins/jenkins:lts | 8002:8080 |
-| sonarqube | sonarqube:7.6-community | 8003:9000 |
-| Mysqldb | mysql:5.7.32 | 3306:3306 |
-| phpmyadmin | phpmyadmin/phpmyadmin:5.1.1 | 8004:80 |
+| Name            | Version                     | Port Mapping |
+| --------------- | --------------------------- | ------------ |
+| Docker          | 20.10.7                     |              |
+| Apache Maven    | 3.5.4                       |              |
+| Sonatype Nexus3 | sonatype/nexus3:3.37.0      | 8001:8081    |
+| Jenkins         | jenkins/jenkins:lts         | 8002:8080    |
+| sonarqube       | sonarqube:7.6-community     | 8003:9000    |
+| Mysqldb         | mysql:5.7.32                | 3306:3306    |
+| phpmyadmin      | phpmyadmin/phpmyadmin:5.1.1 | 8004:80      |
 
 ## Jenkins Configuration
 In this project, the main goal was to make allow you setup and use jenkins easier so I created **default-user.groovy** script to setup initial admin user, also used **JAVA_OPTS -Djenkins.install.runSetupWizard=false** in the docker file to ignore initial secrets.
