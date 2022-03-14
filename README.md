@@ -43,11 +43,14 @@ These are some of the Images we used to set up our stack:
 | Sonatype Nexus3 | sonatype/nexus3:3.37.0      | 8001:8081    |
 | Jenkins         | jenkins/jenkins:lts         | 8002:8080    |
 | sonarqube       | sonarqube:7.6-community     | 8003:9000    |
-| Mysqldb         | mysql:5.7.32                | 3306:3306    |
 | phpmyadmin      | phpmyadmin/phpmyadmin:5.1.1 | 8004:80      |
+| Mysqldb         | mysql:5.7.32                | 3306:3306    |
+
 
 ## Jenkins Configuration
-In this project, the main goal was to make allow you setup and use jenkins easier so I created **default-user.groovy** script to setup initial admin user, also used **JAVA_OPTS -Djenkins.install.runSetupWizard=false** in the docker file to ignore initial secrets.
+### Init Script
+- **default-user.groovy** : Setup initial admin user.
+- **dockerhub-cred.groovy** : Setup Dockerhub credentials.
 
 ### Docker Hub Account
 Setup your dockerhub credentials by updating the values of **DOCKER_USER** and **DOCKER_PASS** in `.env` file.
