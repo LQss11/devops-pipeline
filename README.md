@@ -47,16 +47,14 @@ These are some of the Images we used to set up our stack:
 | Mysqldb         | mysql:5.7.32                | 3306:3306    |
 
 
-## Jenkins Configuration
+# Jenkins Configuration
 ### Init Script
 - **default-user.groovy** : Setup initial admin user.
-- **dockerhub-cred.groovy** : Setup Dockerhub credentials.
+- **dockerhub-cred.groovy** : Setup Dockerhub credentials (Make sure to update yours on `.env`).
 
-### Docker Hub Account
-Setup your dockerhub credentials by updating the values of **DOCKER_USER** and **DOCKER_PASS** in `.env` file.
-You can check the user by going to this url: http://localhost:8002/credentials/store/system/domain/_/.
-### Mail setup
-In order to use mailing service through your pipeline you can use the Jenkins **mailer plugin** then all you have to do is set up the mailing notification configuration like the following details:
+## Mail setup
+To set up the mailing notification configuration you can either set it up **manually** by going to jenkins configuration or using **JCasC** :
+### Manual Mailing Configuration
   1. Go to Jenkins configuration page -> http://localhost:8002/configure
   1. Go all the way down to **E-mail Notification**
   1. **SMTP server**: smtp.gmail.com
@@ -65,22 +63,22 @@ In order to use mailing service through your pipeline you can use the Jenkins **
   1. **User Name**: email@gmail.com
   1. **Password**: email password
   1. **SMTP Port**: 465
-  1. Finally check Test configuration by sending a test e-mail, type an email you want to test the service on then click `test configuration` -> you will receive a mail once you click it and that means the service works properly, and don't forget to save your settings.  
-> ### Update (Jenkins configuration as code)
-You can also setup the email using JCasC with a yaml file ( you can find it in `/jenkins/mailer-config.yaml`).
+  1. Finally check Test configuration by sending a test e-mail, type an email you want to test the service on then click `test configuration` -> you will receive a mail once you click it and that means the service works properly, and don't forget to save your settings. 
+### Jenkins configuration as code Mailing Configuration
+JCasC make it possible to configure jenkins as code through a yaml file like `/jenkins/mailer-config.yaml`.
 
-In that file, you will need to set up just your email address you are going to use and the password so you can type the **email** in **plain text** but for the password, you will need an encrypted password (AES-128), to do so you can simply go to:
-```
-http://localhost:8002/script
-```
-then type the following script (update your password to match your email's pass)
+Now all you have to worry about is the following:
+- **username** : plain text
+- **password** : encrypted password (AES-128) you will to run the `ENCRYPTION SCRIPT` script in the script field by going to `http://localhost:8002/script`.
+
+**ENCRYPTION SCRIPT**
 ```groovy
 import hudson.util.Secret
 
 def secret = Secret.fromString("Your Password")
 println(secret.getEncryptedValue())
 ```
-Once you run the script you will get a new encrypted password, simply copy then paste it into the Config file password field.
+Once done simply copy/paste result into the Config file password field.
 
 Now we are going to simply use that file to apply the new mail configuration by visiting:
 ```
