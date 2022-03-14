@@ -84,24 +84,29 @@ Now we are going to simply use that file to apply the new mail configuration by 
 ```
 http://localhost:8002/configuration-as-code/
 ```
-then copy the configuration file path (or URL)
-```
-/var/jenkins_home/JCasC/mailer-conf.yaml
-```
-and finally, apply a new configuration!
+then copy the configuration file path `/var/jenkins_home/JCasC/mailer-conf.yaml` (or URL) and finally, apply a new 
+
+>The used path is the bind mount specified in the docker compose jenkins volumes configuration.
+
 
 > You can use the JCasC for your desire find more [here](https://plugins.jenkins.io/configuration-as-code/)
 
-### Pipeline setup
+## Pipeline setup
+### Automatic setup
+The pipeline settings are already setup automatically by copying them to `/var/jenkins_home/jobs` you can save yours by creating pipeline then saving its data on your host machine then bind mount it again in that directory.
+### Manual
+For this project I used the **spring-for-jenkins-with-docker** branch which has a spring boot project to be built with maven you can either copy `Jenkinsfile` in the pipeline or just follow these steps.
+
+As well as for the pipeline setup 
 Create A new Jenkins pipeline.
 In `Build Triggers` check the `GitHub hook trigger for GITScm polling` box.
 In `Pipeline -> Definition` select `Pipeline script from SCM ` then use these parameters:
   1. `Repository URL`:https://github.com/LQss11/devops-pipeline.git
-  1. `Branch Specifier (blank for 'any')`:*/master
-  1. `Script Path`:Jenkinsfile (you can choose another Jenkinsfile name and path if you are working with a different repository)  
-  1. Once you finished setting up your project following this README.md file you will be able to run your project and see all stages progress. 
+  2. `Branch Specifier (blank for 'any')`:*/master
+  3. `Script Path`:Jenkinsfile (you can choose another Jenkinsfile name and path if you are working with a different repository)  
+  4. Once you finished setting up your project following this README.md file you will be able to run your project and see all stages progress. 
 
-## Sonatype Nexus3 Configuration
+# Sonatype Nexus3 Configuration
 Configuring Nexus is a bit similar to the first step of Jenkins where we will need to extract a secret to create our admin user.
   1. Visit http://localhost:8001.
   1. Click on **Sign in** on top right corner then enter **admin** username with secret from this command:
@@ -126,7 +131,7 @@ ngrok HTTP 8002
 now ngrok will generate HTTP and HTTPS links for the Jenkins server that will be available to use with GitHub webhooks.
 our link would look something like this xxxx-xxx-xxx-xxx-xxx.ngrok.io
 
-#### Github Setup
+### Github Setup for ngrok
   1. Select the repository you want to work with.
   1. Go to `Settings`.
   1. In options select `Webhooks` the create a new webhook (link must look like this https://REPOSITORY_URL/settings/hooks/new).
