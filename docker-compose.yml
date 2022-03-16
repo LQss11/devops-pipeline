@@ -30,7 +30,7 @@ services:
     privileged: true
     volumes:
       - "./jenkins/settings.xml:/opt/apache-maven-${MAVEN_VERSION}/conf/settings.xml" # For the nexus server setup
-      - "./jenkins/mailer-config:/var/jenkins_home/JCasC/mailer-conf.yaml" # For the JCasC
+      - "./jenkins/mailer-config.yaml:/var/jenkins_home/JCasC/mailer-conf.yaml" # For the JCasC
       - jenkins_data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
